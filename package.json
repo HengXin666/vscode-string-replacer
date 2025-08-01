@@ -1,0 +1,66 @@
+{
+  "name": "string-replacer",
+  "displayName": "字符串替换器",
+  "description": "在当前文件中执行批量字符串替换",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onLanguage:*",
+    "onCommand:stringReplacer.replace"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "stringReplacer.replace",
+        "title": "批量替换字符串",
+        "category": "字符串替换器"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "字符串替换器配置",
+      "properties": {
+        "stringReplacer.replacements": {
+          "type": "object",
+          "default": {
+            "（": "(",
+            "）": ")",
+            "，": ", ",
+            "？": "? ",
+            "！": "! ",
+            "；": "; ",
+            "：": ": "
+          },
+          "description": "替换规则 (键为被替换内容，值为目标内容，直接替换)"
+        },
+        "stringReplacer.trimTrailingSpaces": {
+          "type": "boolean",
+          "default": false,
+          "description": "是否自动去除替换后每行结尾的多余空格"
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "command": "stringReplacer.replace",
+        "key": "ctrl+alt+/",
+        "when": "editorTextFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "tsc -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.3.0",
+    "vsce": "^2.15.0"
+  }
+}
