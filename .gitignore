@@ -7,6 +7,10 @@ package-lock.json
 /out
 *.vsix
 
+# TypeScript compiler output must stay outside src/
+**/*.js
+**/*.js.map
+
 # Generated files
 .docusaurus
 .cache-loader

@@ -12,31 +12,25 @@ VsCode插件, 可配置的一键替换. (默认是替换部分中文标点为英
 
     2. 可以选择去掉文件每一行末尾的空格.
 
+    3. 自动检查 GitHub Release，并可一键下载安装 VSIX。
+
+    4. 更新完成后可一键重载所有 VS Code 窗口。
+
 > [!TIP]
 > 使用: 又下角点击 `执行替换`, 或者默认快捷键 `CTRL + ALT + /`
 
+## 更新命令
+
+- `字符串替换器: 检查更新`
+- `字符串替换器: 重载所有窗口`
+
 ## 构建
 
-- 安装依赖
-
 ```sh
-npm i
-```
-
-- 编译源码
-
-```sh
-npm run vscode:prepublish
+./build.sh
 ```
 
 - 调试运行: VsCode 中按 F5
-
-- 构建包
-
-```sh
-sudo npm install -g vsce     
-vsce package
-```
 
 ## 安装
 

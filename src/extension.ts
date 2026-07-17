@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
+import { GitHubVsixUpdateManager } from "./vendor/githubUpdater";
 
-export function activate(context: vscode.ExtensionContext) {
+export function activate(context: vscode.ExtensionContext): void {
   const statusBarItem = vscode.window.createStatusBarItem(
     vscode.StatusBarAlignment.Right,
     100
@@ -72,6 +73,34 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(disposable);
+
+  const configuredHours = vscode.workspace.getConfiguration("stringReplacer.autoUpdate").get<number>("checkIntervalHours", 24);
+  const checkIntervalMs = Math.max(1, Number.isFinite(configuredHours) ? configuredHours : 24) * 60 * 60 * 1000;
+  const updateManager = new GitHubVsixUpdateManager(context, {
+    owner: "HengXin666",
+    repo: "vscode-string-replacer",
+    displayName: "字符串替换器",
+    stateKeyPrefix: "stringReplacer.updater",
+    assetPattern: /^string-replacer-.*\.vsix$/i,
+    checkIntervalMs
+  });
+  context.subscriptions.push(updateManager);
+
+  const syncAutomaticChecks = (): void => {
+    const enabled = vscode.workspace.getConfiguration("stringReplacer.autoUpdate").get<boolean>("enabled", true);
+    updateManager.setAutomaticChecksEnabled(enabled);
+  };
+  syncAutomaticChecks();
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("stringReplacer.checkForUpdates", () => updateManager.checkForUpdates({ manual: true })),
+    vscode.commands.registerCommand("stringReplacer.reloadAllWindows", () => updateManager.requestReloadAllWindows()),
+    vscode.workspace.onDidChangeConfiguration((event) => {
+      if (event.affectsConfiguration("stringReplacer.autoUpdate")) {
+        syncAutomaticChecks();
+      }
+    })
+  );
 }
 
-export function deactivate() {}
+export function deactivate(): void {}
