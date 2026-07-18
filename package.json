@@ -2,7 +2,7 @@
   "name": "string-replacer",
   "displayName": "字符串替换器",
   "description": "在当前文件中执行批量字符串替换",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "publisher": "HengXin666",
   "repository": {
     "type": "git",
